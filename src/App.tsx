@@ -4,7 +4,7 @@ import Drawer from './Drawer';
 function App() {
 
   return (
-    <div style={{ justifyContent: "center", display: "flex", marginTop: 100 }}>
+    <div style={{  display: "flex" }}>
       <Drawer />
     </div>
   );
