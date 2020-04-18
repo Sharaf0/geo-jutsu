@@ -13,24 +13,14 @@ import {
   Line,
 } from "three";
 
+//FIXME: We should not need that.
 function getTempCanvas(): HTMLCanvasElement {
   return document.getElementById('element that does not exist') as HTMLCanvasElement;
 }
 
-function initArray() {
-  var points = new Array<Vector3>();
-  const zoom = 0;
-  points.push(new Vector3(-250, 0, zoom));
-  points.push(new Vector3(250, 0, zoom));
-  points.push(new Vector3(0, 250, zoom));
-  points.push(new Vector3(0, -250, zoom));
-  return points;
-}
-
-
 function Drawer() {
   const myCanvas = useRef<HTMLCanvasElement>(getTempCanvas());
-  const [points, setPoints] = useState<Array<Vector3>>(initArray());
+  const [points, setPoints] = useState<Array<Vector3>>([]);
   const [scene] = useState<Scene>(new Scene());
   useEffect(() => {
     //console.log(`use effect 1's called`);
@@ -55,7 +45,6 @@ function Drawer() {
   }, [scene]);
 
   useEffect(() => {
-    //console.log(`use effect's called`);
     if (points.length > 0) {
       const geometry = new BufferGeometry().setFromPoints(points);
       const material = new LineBasicMaterial({ color: 0x0000ff });
@@ -64,31 +53,17 @@ function Drawer() {
     }
   }, [points, scene]);
 
-  function getMousePos(canvas: HTMLCanvasElement, evt: React.MouseEvent) {
-    var rect = canvas.getBoundingClientRect(), // abs. size of element
-      scaleX = canvas.width / rect.width,    // relationship bitmap vs. element for X
-      scaleY = canvas.height / rect.height;  // relationship bitmap vs. element for Y
-
-    return {
-      x: (evt.clientX - rect.left) * scaleX,   // scale mouse coordinates after they have
-      y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
-    }
-  }
-
   function onMouseDown(e: React.MouseEvent) {
-    const point = new Vector3(e.clientX, e.clientY, 0);
-    console.log(point.x, point.y);
+    const rect = myCanvas.current.getBoundingClientRect();
+    const scaleX = myCanvas.current.width / rect.width;
+    const scaleY = myCanvas.current.height / rect.height;
 
-    const scaledPoint = getMousePos(myCanvas.current, e);
-    console.log(scaledPoint.x, scaledPoint.y);
+    const scaledPoint = new Vector3((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
 
     const transformedPoint = new Vector3(scaledPoint.x - myCanvas.current.width / 2,
       myCanvas.current.height / 2 - scaledPoint.y);
 
-    console.log(transformedPoint.x, transformedPoint.y);
-
     setPoints([...points, transformedPoint])
-    //console.log('clicked..');
   }
 
   return (
