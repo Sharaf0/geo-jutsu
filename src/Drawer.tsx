@@ -1,47 +1,44 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
-  Vector3,
+  MeshBasicMaterial,
+  Mesh,
   WebGLRenderer,
-  OrthographicCamera,
   Scene,
-  LineBasicMaterial,
-  BufferGeometry,
-  Line,
+  PerspectiveCamera,
+  BoxGeometry,
 } from "three";
 
 function getTempCanvas(): HTMLCanvasElement {
   return document.getElementById('element that does not exist') as HTMLCanvasElement;
 }
 
-function getStartPoints(): Array<Vector3> {
-  const points = [];
-  points.push(new Vector3(0, -10, 0));
-  points.push(new Vector3(-10, 0, 0));
-  points.push(new Vector3(0, 10, 0));
-  points.push(new Vector3(10, 0, 0));
-  points.push(new Vector3(0, -10, 0));
-  points.push(new Vector3(20, 20, 0));
-  return points;
-}
-
-const scene = new Scene();
-
 function Drawer() {
   const myCanvas = useRef<HTMLCanvasElement>(getTempCanvas());
-  const [points] = useState<Array<Vector3>>(getStartPoints());
 
   useEffect(() => {
-    const renderer = new WebGLRenderer({ canvas: myCanvas.current });
-    const camera = new OrthographicCamera(45, (myCanvas.current.getBoundingClientRect().width) / (myCanvas.current.getBoundingClientRect().height), 1, 500);
-    camera.position.set(0, 0, 100);
-    camera.lookAt(0, 0, 0);
+    var scene = new Scene();
+    var camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-    const material = new LineBasicMaterial({ color: 0x0000ff });
-    const geometry = new BufferGeometry().setFromPoints(points);
-    const line = new Line(geometry, material);
-    scene.add(line);
-    renderer.render(scene, camera);
-  }, [points]);
+    var renderer = new WebGLRenderer({canvas: myCanvas.current});
+
+    var geometry = new BoxGeometry();
+    var material = new MeshBasicMaterial({ color: 0x00ff00 });
+    var cube = new Mesh(geometry, material);
+    scene.add(cube);
+
+    camera.position.z = 5;
+
+    var animate = function () {
+      requestAnimationFrame(animate);
+
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+  });
 
   return (
     <canvas ref={myCanvas} width="500" height="500" style={{ border: "1px solid black" }}></canvas>
