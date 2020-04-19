@@ -14,6 +14,5 @@ export default class SceneDrawer {
     scene.remove.apply(scene, scene.children);
     this.pointDrawer.draw(inputPoints, scene, new Color('red'));
     this.segmentDrawer.draw(inputSegments, scene);
-
   }
 }

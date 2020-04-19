@@ -4,11 +4,11 @@ import {
   Scene,
   OrthographicCamera,
   Color,
-  Vector2,
 } from "three";
 import Point from './business/Point';
 import Segment from './business/Segment';
 import SceneDrawer from './drawers/SceneDrawer';
+import MouseEvents from './MouseEvents';
 
 //FIXME: We should not need that.
 function getTempCanvas(): HTMLCanvasElement {
@@ -18,15 +18,17 @@ function getTempCanvas(): HTMLCanvasElement {
 function Drawer() {
   const myCanvas = useRef<HTMLCanvasElement>(getTempCanvas());
   const [inputPoints, setInputPoints] = useState<Array<Point>>([]);
-  const [inputSegments] = useState<Array<Segment>>([]);
+  const [inputSegments, setInputSegments] = useState<Array<Segment>>([]);
   const [scene] = useState<Scene>(new Scene());
   const sceneDrawer = useMemo(() => new SceneDrawer(), []);
+  const mouseEvents = useMemo(() => new MouseEvents(), []);
 
   useEffect(() => {
     const renderer = new WebGLRenderer({ canvas: myCanvas.current });
     renderer.setClearColor(new Color('white'));
     const camera = new OrthographicCamera(- myCanvas.current.width / 2, myCanvas.current.width / 2, myCanvas.current.height / 2, myCanvas.current.height / -2, 0.01, 2000);
     camera.position.z = 50;
+    mouseEvents.canvas = myCanvas.current;
     const animate = function () {
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
@@ -40,17 +42,16 @@ function Drawer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputPoints, inputSegments]);
 
-  function onMouseDown(e: React.MouseEvent) {
-    const rect = myCanvas.current.getBoundingClientRect();
-    const scaleX = myCanvas.current.width / rect.width;
-    const scaleY = myCanvas.current.height / rect.height;
-
-    const scaledPoint = new Vector2((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
-
-    const transformedPoint = new Point(scaledPoint.x - myCanvas.current.width / 2,
-      myCanvas.current.height / 2 - scaledPoint.y);
-
-    setInputPoints([...inputPoints, transformedPoint])
+  const onMouseDown = function (e: React.MouseEvent) {
+    const res = mouseEvents.onMouseDown(e);
+    if (res.length !== 3)
+      throw Error('onMouseDown must return 3 items, (Point | Segment | Polygon | null)')
+    const point = res[0] as Point;
+    const segment = res[1] as Segment;
+    if (point)
+      setInputPoints([...inputPoints, point]);
+    if (segment)
+      setInputSegments([...inputSegments, segment]);
   }
 
   return (
