@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import {
   WebGLRenderer,
   Scene,
@@ -8,8 +8,7 @@ import {
 } from "three";
 import Point from './business/Point';
 import Segment from './business/Segment';
-import PointDrawer from './drawers/PointDrawer';
-import SegmentDrawer from './drawers/SegmentDrawer';
+import SceneDrawer from './drawers/SceneDrawer';
 
 //FIXME: We should not need that.
 function getTempCanvas(): HTMLCanvasElement {
@@ -21,11 +20,9 @@ function Drawer() {
   const [inputPoints, setInputPoints] = useState<Array<Point>>([]);
   const [inputSegments] = useState<Array<Segment>>([]);
   const [scene] = useState<Scene>(new Scene());
-  const [pointDrawer] = useState<PointDrawer>(new PointDrawer());
-  const [segmentDrawer] = useState<SegmentDrawer>(new SegmentDrawer());
+  const sceneDrawer = useMemo(() => new SceneDrawer(), []);
 
   useEffect(() => {
-    console.log('canvas changed');
     const renderer = new WebGLRenderer({ canvas: myCanvas.current });
     renderer.setClearColor(new Color('white'));
     const camera = new OrthographicCamera(- myCanvas.current.width / 2, myCanvas.current.width / 2, myCanvas.current.height / 2, myCanvas.current.height / -2, 0.01, 2000);
@@ -35,15 +32,13 @@ function Drawer() {
       renderer.render(scene, camera);
     };
     animate();
-  }, [scene, myCanvas]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
-    //clearScene
-    //TODO: Do that more efficiently
-    scene.remove.apply(scene, scene.children);
-    pointDrawer.draw(inputPoints, scene);
-    segmentDrawer.draw(inputSegments, scene);
-  }, [inputPoints, inputSegments, pointDrawer, scene, segmentDrawer]);
+    sceneDrawer.draw(scene, inputPoints, inputSegments);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputPoints, inputSegments]);
 
   function onMouseDown(e: React.MouseEvent) {
     const rect = myCanvas.current.getBoundingClientRect();
