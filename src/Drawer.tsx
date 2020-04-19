@@ -8,16 +8,27 @@ import {
   CircleGeometry,
   MeshBasicMaterial,
   Mesh,
+  LineBasicMaterial,
+  BufferGeometry,
+  Line,
 } from "three";
 
 //FIXME: We should not need that.
 function getTempCanvas(): HTMLCanvasElement {
   return document.getElementById('element that does not exist') as HTMLCanvasElement;
 }
-
+class Segment {
+  start: Vector3 = new Vector3();
+  end: Vector3 = new Vector3();
+  constructor(start: Vector3, end: Vector3) {
+    this.start = start;
+    this.end = end;
+  }
+}
 function Drawer() {
   const myCanvas = useRef<HTMLCanvasElement>(getTempCanvas());
   const [points, setPoints] = useState<Array<Vector3>>([]);
+  const [segments, setSegments] = useState<Array<Segment>>([]);
   const [scene] = useState<Scene>(new Scene());
   useEffect(() => {
     const renderer = new WebGLRenderer({ canvas: myCanvas.current });
@@ -43,7 +54,24 @@ function Drawer() {
         scene.add(circle);
       }
     }
-  }, [points, scene]);
+    if (segments.length > 0) {
+      for (let index = 0; index < segments.length; index++) {
+        const segment = segments[index];
+        const material = new LineBasicMaterial({
+          color: 0x0000ff
+        });
+
+        const points = [];
+        points.push(segment.start);
+        points.push(segment.end);
+
+        const geometry = new BufferGeometry().setFromPoints(points);
+
+        const line = new Line(geometry, material);
+        scene.add(line);
+      }
+    }
+  }, [points, segments, scene]);
 
   function onMouseDown(e: React.MouseEvent) {
     const rect = myCanvas.current.getBoundingClientRect();
