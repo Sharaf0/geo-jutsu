@@ -4,33 +4,28 @@ import {
   Scene,
   OrthographicCamera,
   Color,
-  Vector3,
-  CircleGeometry,
-  MeshBasicMaterial,
-  Mesh,
-  LineBasicMaterial,
-  BufferGeometry,
-  Line,
+  Vector2,
 } from "three";
+import Point from './business/Point';
+import Segment from './business/Segment';
+import PointDrawer from './drawers/PointDrawer';
+import SegmentDrawer from './drawers/SegmentDrawer';
 
 //FIXME: We should not need that.
 function getTempCanvas(): HTMLCanvasElement {
   return document.getElementById('element that does not exist') as HTMLCanvasElement;
 }
-class Segment {
-  start: Vector3 = new Vector3();
-  end: Vector3 = new Vector3();
-  constructor(start: Vector3, end: Vector3) {
-    this.start = start;
-    this.end = end;
-  }
-}
+
 function Drawer() {
   const myCanvas = useRef<HTMLCanvasElement>(getTempCanvas());
-  const [points, setPoints] = useState<Array<Vector3>>([]);
-  const [segments, setSegments] = useState<Array<Segment>>([]);
+  const [inputPoints, setInputPoints] = useState<Array<Point>>([]);
+  const [inputSegments] = useState<Array<Segment>>([]);
   const [scene] = useState<Scene>(new Scene());
+  const [pointDrawer] = useState<PointDrawer>(new PointDrawer());
+  const [segmentDrawer] = useState<SegmentDrawer>(new SegmentDrawer());
+
   useEffect(() => {
+    console.log('canvas changed');
     const renderer = new WebGLRenderer({ canvas: myCanvas.current });
     renderer.setClearColor(new Color('white'));
     const camera = new OrthographicCamera(- myCanvas.current.width / 2, myCanvas.current.width / 2, myCanvas.current.height / 2, myCanvas.current.height / -2, 0.01, 2000);
@@ -40,50 +35,27 @@ function Drawer() {
       renderer.render(scene, camera);
     };
     animate();
-  }, [scene]);
+  }, [scene, myCanvas]);
 
   useEffect(() => {
-    if (points.length > 0) {
-      for (let index = 0; index < points.length; index++) {
-        const p = points[index];
-        const geometry = new CircleGeometry(2, 10);
-        const material = new MeshBasicMaterial({ color: 0x0000ff });
-        const circle = new Mesh(geometry, material);
-        circle.position.setX(p.x);
-        circle.position.setY(p.y);
-        scene.add(circle);
-      }
-    }
-    if (segments.length > 0) {
-      for (let index = 0; index < segments.length; index++) {
-        const segment = segments[index];
-        const material = new LineBasicMaterial({
-          color: 0x0000ff
-        });
-
-        const points = [];
-        points.push(segment.start);
-        points.push(segment.end);
-
-        const geometry = new BufferGeometry().setFromPoints(points);
-
-        const line = new Line(geometry, material);
-        scene.add(line);
-      }
-    }
-  }, [points, segments, scene]);
+    //clearScene
+    //TODO: Do that more efficiently
+    scene.remove.apply(scene, scene.children);
+    pointDrawer.draw(inputPoints, scene);
+    segmentDrawer.draw(inputSegments, scene);
+  }, [inputPoints, inputSegments, pointDrawer, scene, segmentDrawer]);
 
   function onMouseDown(e: React.MouseEvent) {
     const rect = myCanvas.current.getBoundingClientRect();
     const scaleX = myCanvas.current.width / rect.width;
     const scaleY = myCanvas.current.height / rect.height;
 
-    const scaledPoint = new Vector3((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
+    const scaledPoint = new Vector2((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
 
-    const transformedPoint = new Vector3(scaledPoint.x - myCanvas.current.width / 2,
+    const transformedPoint = new Point(scaledPoint.x - myCanvas.current.width / 2,
       myCanvas.current.height / 2 - scaledPoint.y);
 
-    setPoints([...points, transformedPoint])
+    setInputPoints([...inputPoints, transformedPoint])
   }
 
   return (
