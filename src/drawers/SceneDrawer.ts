@@ -9,8 +9,8 @@ export default class SceneDrawer {
   segmentDrawer: SegmentDrawer = new SegmentDrawer();
 
   draw(scene: Scene, inputPoints: Array<Point>, inputSegments: Array<Segment>) {
-        //clearScene
     //TODO: Do that more efficiently
+    //clearScene
     scene.remove.apply(scene, scene.children);
     this.pointDrawer.draw(inputPoints, scene, new Color('green'));
     this.segmentDrawer.draw(inputSegments, scene);

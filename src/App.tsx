@@ -1,5 +1,6 @@
 import React from 'react';
 import Drawer from './Drawer';
+import DrawingPalette from './DrawingPalette';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
           <Drawer />
         </div>
         <div className="col-sm-3">
-          <h1>test</h1>
+          <DrawingPalette />
         </div>
       </div>
     </div>
