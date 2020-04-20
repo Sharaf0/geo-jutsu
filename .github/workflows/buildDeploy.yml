@@ -15,5 +15,9 @@ jobs:
         run: yarn --no-progress --non-interactive --no-lockfile
       - name: Build
         run: yarn build
+      - name: Configure Git
+        run: |
+          git config user.email "mohammedsharaf@live.de";
+          git config user.name "Sharaf0";
       - name: Deploy
         run: yarn deploy
