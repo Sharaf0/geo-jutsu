@@ -1,23 +1,17 @@
-name: buildDeploy
-
+name: GitHub Pages deploy
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+    branches:
+      - master
 jobs:
-  build:
+  checkout-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Install
-        run: yarn --no-progress --non-interactive --no-lockfile
-      - name: Build
-        run: yarn build
-      - name: Configure Git
-        run: |
-          git config user.email "mohammedsharaf@live.de";
-          git config user.name "Sharaf0";
-      - name: Deploy
-        run: yarn deploy
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Deploy to GitHub Pages
+      uses: Cecilapp/GitHub-Pages-deploy@master
+      env:
+        EMAIL: mohammedsharaf@live.de
+        GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BUILD_DIR: build
