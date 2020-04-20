@@ -12,7 +12,7 @@ export default class SceneDrawer {
         //clearScene
     //TODO: Do that more efficiently
     scene.remove.apply(scene, scene.children);
-    this.pointDrawer.draw(inputPoints, scene, new Color('blue'));
+    this.pointDrawer.draw(inputPoints, scene, new Color('green'));
     this.segmentDrawer.draw(inputSegments, scene);
   }
 }
