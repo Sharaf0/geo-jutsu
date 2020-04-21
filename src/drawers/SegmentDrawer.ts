@@ -2,7 +2,7 @@ import Segment from "../business/Segment";
 import { Scene, LineBasicMaterial, BufferGeometry, Vector2, Line } from "three";
 
 export default class SegmentDrawer {
-  draw(segments: Array<Segment>, scene: Scene) {
+  draw(segments: Segment[], scene: Scene) {
     if (segments.length === 0)
       return [];
       
@@ -12,7 +12,7 @@ export default class SegmentDrawer {
         color: 0x0000ff
       });
 
-      const points = new Array<Vector2>();
+      const points: Vector2[] = [];
       points.push(segment.start.toVector2());
       points.push(segment.end.toVector2());
 

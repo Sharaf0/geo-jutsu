@@ -17,8 +17,8 @@ function getTempCanvas(): HTMLCanvasElement {
 
 function Drawer() {
   const myCanvas = useRef<HTMLCanvasElement>(getTempCanvas());
-  const [inputPoints, setInputPoints] = useState<Array<Point>>([]);
-  const [inputSegments, setInputSegments] = useState<Array<Segment>>([]);
+  const [inputPoints, setInputPoints] = useState<Point[]>([]);
+  const [inputSegments, setInputSegments] = useState<Segment[]>([]);
   const [scene] = useState<Scene>(new Scene());
   const sceneDrawer = useMemo(() => new SceneDrawer(), []);
   const mouseEvents = useMemo(() => new MouseEvents(), []);

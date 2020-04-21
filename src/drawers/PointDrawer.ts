@@ -2,7 +2,7 @@ import Point from "../business/Point";
 import { Scene, Mesh, CircleGeometry, MeshBasicMaterial, Color } from "three";
 
 export default class PointDrawer {
-  draw(points: Array<Point>, scene: Scene, color: Color) {
+  draw(points: Point[], scene: Scene, color: Color) {
     if (points.length === 0)
       return;
     for (let index = 0; index < points.length; index++) {
