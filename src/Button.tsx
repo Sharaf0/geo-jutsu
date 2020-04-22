@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './styles/button.module.scss';
 import classNames from "classnames";
+
 export interface ButtonProps {
   onClick: (value: string) => void;
   value: string;
@@ -10,8 +11,6 @@ export interface ButtonProps {
 }
 
 function Button(props: ButtonProps) {
-  //const [isClicked, setIsClicked] = useState(false);
-
   const style = {
     backgroundColor: props.originalColor
   };

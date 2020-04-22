@@ -1,32 +1,27 @@
-import React from 'react';
-import Button from './Button';
-
+import React from "react";
+import { ButtonsList } from "./ButtonsList";
 interface AlgorithmsListPropTypes {
-  names: string[]
-};
+  names: string[];
+}
 
 const AlgorithmsList = function (props: AlgorithmsListPropTypes) {
   const onClick = function (value: string) {
-
-  }
+    alert(`algorithm: ${value}`);
+  };
+  const buttons = props.names.map((name) => ({
+    value: name,
+    //TODO: Get those from config.
+    clickedColor: "darkblue",
+    originalColor: "lightblue",
+    isClicked: false,
+    onClick: onClick,
+  }));
   return (
     <>
       <h2>Algorithms</h2>
-      <div>
-        {props.names.map(algo =>
-          <Button
-            key={algo}
-            value={algo}
-            onClick={onClick}
-            originalColor="lightblue"
-            clickedColor="darkblue"
-            isClicked={false} />
-        )}
-      </div>
+      <ButtonsList buttons={buttons} />
     </>
   );
 };
-
-
 
 export default AlgorithmsList;

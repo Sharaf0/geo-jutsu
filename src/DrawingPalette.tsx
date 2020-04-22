@@ -1,50 +1,23 @@
-import React, { useState } from 'react';
-import Button, { ButtonProps } from './Button';
+import React from "react";
+import { ButtonProps } from "./Button";
+import { ButtonsList } from "./ButtonsList";
 
-//TODO: Extract the logic of selecting only one item from a list to a separated custom hook
-/*
-useOneActive // is a hook that has only one active element of `count` items
-input: count
-output: set(index: numnber), items: boolean[]
+interface Props {
+  buttons: Omit<ButtonProps, "onClick">[];
+}
 
-set(2) <= [false, false, true, false, false]
-*/
+function DrawingPalette(props: Props) {
+  const onClick = function (value: string) {
+    alert(value);
+  };
 
-/*
-useButtonsState(count)
-output: set(index: numnber), items: ButtonProps[]
-*/
+  const buttons = props.buttons.map((b) => ({ ...b, onClick }));
 
-type InitialButtonProps = Omit<ButtonProps, 'onClick'>;
-
-const initialButtons = (function () {
-  const ret: InitialButtonProps[] = [];
-  ret.push({ isClicked: true, value: "Nothing", originalColor: "lightgrey", clickedColor: "grey" });
-  ret.push({ isClicked: false, value: "Point", originalColor: "#fe2636", clickedColor: "darkred" });
-  ret.push({ isClicked: false, value: "Line", originalColor: "#f5dd33", clickedColor: "#f9a905" });
-  ret.push({ isClicked: false, value: "Polygon", originalColor: "#90eb35", clickedColor: "green" });
-  return ret;
-})();
-
-function DrawingPalette() {
-  const onClick = function (value: string): void {
-    //TODO: Change the current drawingContext
-    const button = buttons.find(b => b.value === value);
-    if (!button)
-      throw Error(`value ${value} must be found!`);
-
-    if (button.isClicked)
-      throw Error(`this function should not be called if the button is already clicked!`);
-
-    //set all buttons isClicked to false, except for the newly clicked button
-    const newButtons = buttons.map(button => button.value === value ? { ...button, isClicked: true } : { ...button, isClicked: false });
-    setButtons(newButtons);
-  }
-  const [buttons, setButtons] = useState(initialButtons);
-
-  return <div className="btn-group-vertical">
-    {buttons.map(button => <Button key={button.value} {...button} onClick={onClick} />)}
-  </div>
+  return (
+    <div className="btn-group-vertical">
+      <ButtonsList buttons={buttons} />
+    </div>
+  );
 }
 
 export default DrawingPalette;
