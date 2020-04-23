@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import Button, { ButtonProps } from "./Button";
 
 interface Props {
@@ -6,11 +6,16 @@ interface Props {
 }
 
 const ButtonsList = function (props: Props) {
+  const [buttons, setButtons] = useState<ButtonProps[]>([]);
+
+  useEffect(() => {
+    setButtons(props.buttons);
+  }, []);
+
   const onClick = useCallback(
     function (value: string): void {
-      debugger;
       //TODO: Change the current drawingContext
-      const button = props.buttons.find((b) => b.value === value);
+      const button = buttons.find((b) => b.value === value);
       if (!button) throw Error(`value ${value} must be found!`);
 
       if (button.isClicked)
@@ -18,25 +23,22 @@ const ButtonsList = function (props: Props) {
           `this function should not be called if the button is already clicked!`
         );
 
-      //set all buttons isClicked to false, except for the newly clicked button
-      // const newButtons = props.buttons.map((button) =>
-      //   button.value === value
-      //     ? { ...button, isClicked: true }
-      //     : { ...button, isClicked: false }
-      // );
+      const newButtons = buttons.map((button) =>
+        button.value === value
+          ? { ...button, isClicked: true }
+          : { ...button, isClicked: false }
+      );
+      setButtons(newButtons);
     },
-    [props.buttons]
+    [buttons]
   );
-
-  console.log("ButtonsList", props);
 
   return (
     <div>
-      {props.buttons.map((button) => {
+      {buttons.map((button) => {
         const newButton = {
           ...button,
           onClick: (value: string) => {
-            debugger;
             onClick(value);
             button.onClick(value);
           },

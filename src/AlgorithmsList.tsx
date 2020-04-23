@@ -6,7 +6,7 @@ interface AlgorithmsListPropTypes {
 
 const AlgorithmsList = function (props: AlgorithmsListPropTypes) {
   const onClick = function (value: string) {
-    alert(`algorithm: ${value}`);
+    console.log(`algorithm: ${value}`);
   };
   const buttons = props.names.map((name) => ({
     value: name,

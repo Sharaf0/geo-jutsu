@@ -8,7 +8,7 @@ interface Props {
 
 function DrawingPalette(props: Props) {
   const onClick = function (value: string) {
-    alert(value);
+    console.log(value);
   };
 
   const buttons = props.buttons.map((b) => ({ ...b, onClick }));
