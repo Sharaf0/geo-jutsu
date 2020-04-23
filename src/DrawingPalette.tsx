@@ -12,11 +12,18 @@ function DrawingPalette(props: Props) {
     drawingModeContext
   );
 
-  const onClick = useCallback(function (value: string) {
-    setCurrentDrawingMode(value);
-  }, [setCurrentDrawingMode]);
+  const onClick = useCallback(
+    function (value: string) {
+      setCurrentDrawingMode(value);
+    },
+    [setCurrentDrawingMode]
+  );
 
-  const buttons = props.buttons.map((btn) => btn.value === drawingMode? ({...btn, onClick, isClicked: true}) : ({ ...btn, onClick }));
+  const buttons = props.buttons.map((btn) =>
+    btn.value === drawingMode
+      ? { ...btn, onClick, isClicked: true }
+      : { ...btn, onClick }
+  );
 
   return (
     <div className="btn-group-vertical">

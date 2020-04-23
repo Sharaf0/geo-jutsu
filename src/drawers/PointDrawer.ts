@@ -3,8 +3,7 @@ import { Scene, Mesh, CircleGeometry, MeshBasicMaterial, Color } from "three";
 
 export default class PointDrawer {
   draw(points: Point[], scene: Scene, color: Color) {
-    if (points.length === 0)
-      return;
+    if (points.length === 0) return;
     for (let index = 0; index < points.length; index++) {
       const p = points[index];
       const geometry = new CircleGeometry(2, 10);
