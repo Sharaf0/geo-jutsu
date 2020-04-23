@@ -2,15 +2,16 @@ import React from "react";
 import Drawer from "./Drawer";
 import DrawingPalette from "./DrawingPalette";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { DrawingContext } from "./DrawingContext";
+import { drawingModeContext } from "./DrawingModeContext";
 import { StatesPlayer } from "./StatesPlayer";
 import AlgorithmsList from "./AlgorithmsList";
+import { useDrawingMode } from "./hooks/drawingMode.hook";
 
 //TODO: Move that to config.
 const drawingButtons = (function () {
   const ret = [
     {
-      isClicked: true,
+      isClicked: false,
       value: "Nothing",
       originalColor: "lightgrey",
       clickedColor: "grey",
@@ -37,9 +38,11 @@ const drawingButtons = (function () {
   return ret;
 })();
 const algorithms = ["algo 1", "algo 2"];
+
 function App() {
+  const drawingMode = useDrawingMode();
   return (
-    <DrawingContext.Provider value={"Nothing"}>
+    <drawingModeContext.Provider value={drawingMode}>
       <div className="container">
         <div className="row">
           <div className="col-sm-3">
@@ -54,7 +57,7 @@ function App() {
           </div>
         </div>
       </div>
-    </DrawingContext.Provider>
+    </drawingModeContext.Provider>
   );
 }
 

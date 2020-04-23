@@ -10,7 +10,7 @@ const ButtonsList = function (props: Props) {
 
   useEffect(() => {
     setButtons(props.buttons);
-  }, []);
+  }, [props.buttons]);
 
   const onClick = useCallback(
     function (value: string): void {

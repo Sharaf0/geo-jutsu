@@ -1,21 +1,27 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { ButtonProps } from "./Button";
 import { ButtonsList } from "./ButtonsList";
+import { drawingModeContext } from "./DrawingModeContext";
 
 interface Props {
   buttons: Omit<ButtonProps, "onClick">[];
 }
 
 function DrawingPalette(props: Props) {
-  const onClick = function (value: string) {
-    console.log(value);
-  };
+  const { drawingMode, setCurrentDrawingMode } = React.useContext(
+    drawingModeContext
+  );
 
-  const buttons = props.buttons.map((b) => ({ ...b, onClick }));
+  const onClick = useCallback(function (value: string) {
+    setCurrentDrawingMode(value);
+  }, [setCurrentDrawingMode]);
+
+  const buttons = props.buttons.map((btn) => btn.value === drawingMode? ({...btn, onClick, isClicked: true}) : ({ ...btn, onClick }));
 
   return (
     <div className="btn-group-vertical">
       <ButtonsList buttons={buttons} />
+      <span>{drawingMode}</span>
     </div>
   );
 }
