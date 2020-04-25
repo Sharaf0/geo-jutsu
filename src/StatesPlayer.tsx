@@ -20,8 +20,7 @@ export const StatesPlayer = function () {
           {">>"}
         </button>
       </div>
-      <br></br>
-      <div className="progress">
+      <div className="progress" style={{marginTop: 20}}>
         <div
           className="progress-bar progress-bar-striped progress-bar-animated"
           role="progressbar"

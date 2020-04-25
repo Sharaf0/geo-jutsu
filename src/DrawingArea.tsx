@@ -5,6 +5,7 @@ import Segment from "./business/Segment";
 import SceneDrawer from "./drawers/SceneDrawer";
 import MouseEvents from "./MouseEvents";
 import { drawingModeContext } from "./DrawingModeContext";
+import Step from "./algorithms/step";
 
 //FIXME: We should not need that.
 function getTempCanvas(): HTMLCanvasElement {
@@ -12,8 +13,10 @@ function getTempCanvas(): HTMLCanvasElement {
     "element that does not exist"
   ) as HTMLCanvasElement;
 }
-
-function Drawer() {
+interface Props {
+  currentStep: Step | null
+}
+function DrawingArea(props: Props) {
   const myCanvas = useRef<HTMLCanvasElement>(getTempCanvas());
   const [inputPoints, setInputPoints] = useState<Point[]>([]);
   const [inputSegments, setInputSegments] = useState<Segment[]>([]);
@@ -25,6 +28,8 @@ function Drawer() {
   const [beingDrawenSegment, setBeingDrawenSegment] = useState<Segment | null>(
     null
   );
+  const [drawingStep] = useState<boolean>(!!props.currentStep);
+
   useEffect(() => {
     const renderer = new WebGLRenderer({ canvas: myCanvas.current });
     renderer.setClearColor(new Color("white"));
@@ -52,12 +57,14 @@ function Drawer() {
       inputPoints,
       inputSegments,
       beingDrawenPoint,
-      beingDrawenSegment
+      beingDrawenSegment,
+      props.currentStep
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputPoints, inputSegments, beingDrawenPoint, beingDrawenSegment]);
+  }, [inputPoints, inputSegments, beingDrawenPoint, beingDrawenSegment, sceneDrawer, scene, props.currentStep]);
 
   const onMouseDown = function (e: React.MouseEvent) {
+    if(drawingStep)
+      return;
     const res = mouseEvents.onMouseDown(drawingMode, e);
     if (res.length !== 3)
       throw Error("onMouseDown must return 3 items, [Point, Segment, Polygon]");
@@ -68,6 +75,8 @@ function Drawer() {
   };
 
   const onMouseMove = function (e: React.MouseEvent) {
+    if(drawingStep)
+      return;
     const res = mouseEvents.onMouseMove(drawingMode, e);
     if (res.length !== 3)
       throw Error("onMouseMove must return 3 items, [Point, Segment, Polygon]");
@@ -95,4 +104,4 @@ function Drawer() {
   );
 }
 
-export default Drawer;
+export default DrawingArea;

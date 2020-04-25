@@ -1,11 +1,12 @@
 import React from "react";
-import Drawer from "./Drawer";
+import DrawingArea from "./DrawingArea";
 import DrawingPalette from "./DrawingPalette";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { drawingModeContext } from "./DrawingModeContext";
 import { StatesPlayer } from "./StatesPlayer";
 import AlgorithmsList from "./AlgorithmsList";
 import { useDrawingMode } from "./hooks/drawingMode.hook";
+import AlgorithmsFactory from "./algorithms/algorithmsFactory";
 
 //TODO: Move that to config.
 const drawingButtons = (function () {
@@ -37,19 +38,21 @@ const drawingButtons = (function () {
   ];
   return ret;
 })();
-const algorithms = ["algo 1", "algo 2"];
 
 function App() {
   const drawingMode = useDrawingMode();
+  const algorithmFactory = new AlgorithmsFactory();
+  //TODO:
+  //const [algoStepsIterator, setAlgoStepsIterator] = useState();
   return (
     <drawingModeContext.Provider value={drawingMode}>
       <div className="container">
         <div className="row">
           <div className="col-sm-3">
-            <AlgorithmsList names={algorithms} />
+            <AlgorithmsList algorithms={algorithmFactory.getAll()} />
           </div>
           <div className="col-sm-6">
-            <Drawer />
+            <DrawingArea currentStep={null} />
             <StatesPlayer />
           </div>
           <div className="col-sm-3">
