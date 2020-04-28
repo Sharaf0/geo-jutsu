@@ -12,7 +12,7 @@ export default class StepDrawer {
     this.segmentDrawer = new SegmentDrawer();
   }
   draw(step: Step, scene: Scene) {
-    if (!step || !step.pointsGroups.length || !step.segmentsGroups.length)
+    if (!step || (!step.pointsGroups.length && !step.segmentsGroups.length))
       return;
 
     for (let index = 0; index < step.pointsGroups.length; index++) {

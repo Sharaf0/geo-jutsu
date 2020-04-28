@@ -1,11 +1,12 @@
-import React, { useRef, useEffect, useState, useMemo } from "react";
+import React, { useRef, useEffect, useState, useMemo, useContext } from "react";
 import { WebGLRenderer, Scene, OrthographicCamera, Color } from "three";
 import Point from "./business/Point";
 import Segment from "./business/Segment";
 import SceneDrawer from "./drawers/SceneDrawer";
 import MouseEvents from "./MouseEvents";
-import { drawingModeContext } from "./DrawingModeContext";
-import Step from "./algorithms/step";
+import { drawingModeContext } from "./contexts/DrawingModeContext";
+import { algorithmStepsContext } from "./contexts/AlgorithmStepsContext";
+import { inputDrawingsContext } from "./contexts/InputDrawingsContext";
 
 //FIXME: We should not need that.
 function getTempCanvas(): HTMLCanvasElement {
@@ -13,23 +14,24 @@ function getTempCanvas(): HTMLCanvasElement {
     "element that does not exist"
   ) as HTMLCanvasElement;
 }
-interface Props {
-  currentStep: Step | null
-}
-function DrawingArea(props: Props) {
+function DrawingArea() {
   const myCanvas = useRef<HTMLCanvasElement>(getTempCanvas());
-  const [inputPoints, setInputPoints] = useState<Point[]>([]);
-  const [inputSegments, setInputSegments] = useState<Segment[]>([]);
   const [scene] = useState<Scene>(new Scene());
   const sceneDrawer = useMemo(() => new SceneDrawer(), []);
   const mouseEvents = useMemo(() => new MouseEvents(), []);
-  const { drawingMode } = React.useContext(drawingModeContext);
+  const { drawingMode } = useContext(drawingModeContext);
+  const { currentStep } = useContext(algorithmStepsContext);
+  const { addPoint, addSegment, inputPoints, inputSegments } = useContext(
+    inputDrawingsContext
+  );
   const [beingDrawenPoint, setBeingDrawenPoint] = useState<Point | null>(null);
   const [beingDrawenSegment, setBeingDrawenSegment] = useState<Segment | null>(
     null
   );
-  const [drawingStep] = useState<boolean>(!!props.currentStep);
-
+  const [isDrawingStep, setIsDrawingStep] = useState<boolean>(false);
+  useEffect(() => {
+    setIsDrawingStep(currentStep !== null);
+  }, [currentStep]);
   useEffect(() => {
     const renderer = new WebGLRenderer({ canvas: myCanvas.current });
     renderer.setClearColor(new Color("white"));
@@ -58,25 +60,31 @@ function DrawingArea(props: Props) {
       inputSegments,
       beingDrawenPoint,
       beingDrawenSegment,
-      props.currentStep
+      currentStep
     );
-  }, [inputPoints, inputSegments, beingDrawenPoint, beingDrawenSegment, sceneDrawer, scene, props.currentStep]);
+  }, [
+    inputPoints,
+    inputSegments,
+    beingDrawenPoint,
+    beingDrawenSegment,
+    sceneDrawer,
+    scene,
+    currentStep,
+  ]);
 
   const onMouseDown = function (e: React.MouseEvent) {
-    if(drawingStep)
-      return;
+    if (isDrawingStep) return;
     const res = mouseEvents.onMouseDown(drawingMode, e);
     if (res.length !== 3)
       throw Error("onMouseDown must return 3 items, [Point, Segment, Polygon]");
     const point = res[0] as Point;
     const segment = res[1] as Segment;
-    if (point) setInputPoints([...inputPoints, point]);
-    if (segment) setInputSegments([...inputSegments, segment]);
+    if (point) addPoint(point);
+    if (segment) addSegment(segment);
   };
 
   const onMouseMove = function (e: React.MouseEvent) {
-    if(drawingStep)
-      return;
+    if (isDrawingStep) return;
     const res = mouseEvents.onMouseMove(drawingMode, e);
     if (res.length !== 3)
       throw Error("onMouseMove must return 3 items, [Point, Segment, Polygon]");
@@ -90,17 +98,18 @@ function DrawingArea(props: Props) {
     setBeingDrawenPoint(null);
     setBeingDrawenSegment(null);
   };
-
   return (
-    <canvas
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-      ref={myCanvas}
-      width="500"
-      height="500"
-      style={{ border: "1px solid black" }}
-    ></canvas>
+    <>
+      <canvas
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
+        ref={myCanvas}
+        width="500"
+        height="500"
+        style={{ border: "1px solid black" }}
+      ></canvas>
+    </>
   );
 }
 

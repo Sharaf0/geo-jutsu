@@ -2,11 +2,15 @@ import React from "react";
 import DrawingArea from "./DrawingArea";
 import DrawingPalette from "./DrawingPalette";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { drawingModeContext } from "./DrawingModeContext";
+import { drawingModeContext } from "./contexts/DrawingModeContext";
+import { algorithmStepsContext } from "./contexts/AlgorithmStepsContext";
+import { inputDrawingsContext } from "./contexts/InputDrawingsContext";
 import { StatesPlayer } from "./StatesPlayer";
 import AlgorithmsList from "./AlgorithmsList";
 import { useDrawingMode } from "./hooks/drawingMode.hook";
+import { useAlgorithmSteps } from "./hooks/algorithmSteps.hook";
 import AlgorithmsFactory from "./algorithms/algorithmsFactory";
+import { useInputDrawings } from "./hooks/inputDrawings.hook";
 
 //TODO: Move that to config.
 const drawingButtons = (function () {
@@ -40,27 +44,28 @@ const drawingButtons = (function () {
 })();
 
 function App() {
-  const drawingMode = useDrawingMode();
   const algorithmFactory = new AlgorithmsFactory();
-  //TODO:
-  //const [algoStepsIterator, setAlgoStepsIterator] = useState();
   return (
-    <drawingModeContext.Provider value={drawingMode}>
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-3">
-            <AlgorithmsList algorithms={algorithmFactory.getAll()} />
+    <inputDrawingsContext.Provider value={useInputDrawings()}>
+      <algorithmStepsContext.Provider value={useAlgorithmSteps()}>
+        <drawingModeContext.Provider value={useDrawingMode()}>
+          <div className="container">
+            <div className="row">
+              <div className="col-sm-3">
+                <AlgorithmsList algorithms={algorithmFactory.getAll()} />
+              </div>
+              <div className="col-sm-6">
+                <DrawingArea />
+                <StatesPlayer />
+              </div>
+              <div className="col-sm-3">
+                <DrawingPalette buttons={drawingButtons} />
+              </div>
+            </div>
           </div>
-          <div className="col-sm-6">
-            <DrawingArea currentStep={null} />
-            <StatesPlayer />
-          </div>
-          <div className="col-sm-3">
-            <DrawingPalette buttons={drawingButtons} />
-          </div>
-        </div>
-      </div>
-    </drawingModeContext.Provider>
+        </drawingModeContext.Provider>
+      </algorithmStepsContext.Provider>
+    </inputDrawingsContext.Provider>
   );
 }
 

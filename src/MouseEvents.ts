@@ -28,7 +28,7 @@ export default class MouseEvents {
     drawingMode: string,
     e: React.MouseEvent
   ): (Point | Segment | /*Polygon |*/ null)[] {
-    if (e.button !== 0) return [null, null, null];
+    if (!this.canvas || e.button !== 0) return [null, null, null];
 
     if (drawingMode === "Point") {
       const point = this.getPoint(e.clientX, e.clientY);
@@ -41,6 +41,7 @@ export default class MouseEvents {
     drawingMode: string,
     e: React.MouseEvent
   ): (Point | Segment | /*Polygon |*/ null)[] {
+    if (!this.canvas) return [null, null, null];
     if (drawingMode === "Nothing") return [null, null, null];
     if (drawingMode === "Point") {
       const point = this.getPoint(e.clientX, e.clientY);

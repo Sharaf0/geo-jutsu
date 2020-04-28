@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { ButtonProps } from "./Button";
 import { ButtonsList } from "./ButtonsList";
-import { drawingModeContext } from "./DrawingModeContext";
+import { drawingModeContext } from "./contexts/DrawingModeContext";
 
 interface Props {
   buttons: Omit<ButtonProps, "onClick">[];

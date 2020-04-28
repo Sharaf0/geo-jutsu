@@ -22,23 +22,27 @@ export default class SceneDrawer {
   ) {
     //TODO: Do that more efficiently
     //clearScene
-    if (beingDrawenPoint) {
-      inputPoints = [...inputPoints, beingDrawenPoint];
-    }
-    if (beingDrawenSegment) {
-      inputSegments = [...inputSegments, beingDrawenSegment];
-    }
     scene.remove.apply(scene, scene.children);
-    this.pointDrawer.draw(
-      inputPoints,
-      scene,
-      ColorsGenerator.getDefaultPointColor()
-    );
-    this.segmentDrawer.draw(
-      inputSegments,
-      scene,
-      ColorsGenerator.getDefaultSegmentColor()
-    );
-    if (currentStep) this.stepDrawer.draw(currentStep, scene);
+
+    if (currentStep) {
+      this.stepDrawer.draw(currentStep, scene);
+    } else {
+      if (beingDrawenPoint) {
+        inputPoints = [...inputPoints, beingDrawenPoint];
+      }
+      if (beingDrawenSegment) {
+        inputSegments = [...inputSegments, beingDrawenSegment];
+      }
+      this.pointDrawer.draw(
+        inputPoints,
+        scene,
+        ColorsGenerator.getDefaultPointColor()
+      );
+      this.segmentDrawer.draw(
+        inputSegments,
+        scene,
+        ColorsGenerator.getDefaultSegmentColor()
+      );
+    }
   }
 }

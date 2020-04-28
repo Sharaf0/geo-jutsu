@@ -36,7 +36,7 @@ export default class ColorsGenerator {
   }
 
   public static getRandomPointsGroupColor(index: number): Color {
-    if (ColorsGenerator.pointsGroupColors.length >= index)
+    if (ColorsGenerator.pointsGroupColors.length > index)
       return ColorsGenerator.pointsGroupColors[index];
     else {
       return ColorsGenerator.getNewPointsGroupColor();
@@ -44,7 +44,7 @@ export default class ColorsGenerator {
   }
 
   public static getRandomSegmentsGroupColor(index: number): Color {
-    if (ColorsGenerator.segmentsGroupColors.length >= index)
+    if (ColorsGenerator.segmentsGroupColors.length > index)
       return ColorsGenerator.segmentsGroupColors[index];
     else {
       return ColorsGenerator.getNewSegmentsGroupColor();

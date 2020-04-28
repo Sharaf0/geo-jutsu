@@ -1,4 +1,4 @@
-import React from "react";
+import { createContext } from "react";
 
 export interface DrawingModeContext {
   drawingMode: string;
@@ -6,10 +6,10 @@ export interface DrawingModeContext {
 }
 
 export const DEFAULT_DRAWING_MODE_VALUE = {
-  drawingMode: "Nothing",
+  drawingMode: "Point",
   setCurrentDrawingMode: () => {},
 };
 
-export const drawingModeContext = React.createContext<DrawingModeContext>(
+export const drawingModeContext = createContext<DrawingModeContext>(
   DEFAULT_DRAWING_MODE_VALUE
 );

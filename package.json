@@ -30,7 +30,7 @@
     "test": "react-scripts test",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build",
-    "pretty": "prettier --write \"**/*.ts\" && prettier --write \"**/*.ts\""
+    "pretty": "prettier --write \"**/*.tsx\" && prettier --write \"**/*.ts\""
   },
   "eslintConfig": {
     "extends": "react-app"
