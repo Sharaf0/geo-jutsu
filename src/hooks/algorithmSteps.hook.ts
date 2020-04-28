@@ -2,8 +2,8 @@ import { useState } from "react";
 import { AlgorithmStepsContext } from "../contexts/AlgorithmStepsContext";
 import Step from "../algorithms/step";
 import IAlgorithm from "../algorithms/IAlgorithm";
-import Point from "../business/Point";
-import Segment from "../business/Segment";
+import Point from "../dataStructures/Point";
+import Segment from "../dataStructures/Segment";
 
 export const useAlgorithmSteps = (): AlgorithmStepsContext => {
   const [currentIndex, setCurrentIndex] = useState(-1);

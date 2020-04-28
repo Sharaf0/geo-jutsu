@@ -1,6 +1,6 @@
 import Step from "./step";
-import Point from "../business/Point";
-import Segment from "../business/Segment";
+import Point from "../dataStructures/Point";
+import Segment from "../dataStructures/Segment";
 import IAlgorithm from "./IAlgorithm";
 
 export default class simpleAlgorithm implements IAlgorithm {

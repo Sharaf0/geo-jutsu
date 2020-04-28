@@ -1,5 +1,5 @@
-import Point from "../business/Point";
-import Segment from "../business/Segment";
+import Point from "../dataStructures/Point";
+import Segment from "../dataStructures/Segment";
 
 export default class Step {
   pointsGroups: Point[][];

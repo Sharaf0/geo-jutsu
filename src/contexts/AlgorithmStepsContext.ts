@@ -1,8 +1,8 @@
 import React from "react";
 import Step from "../algorithms/step";
 import IAlgorithm from "../algorithms/IAlgorithm";
-import Point from "../business/Point";
-import Segment from "../business/Segment";
+import Point from "../dataStructures/Point";
+import Segment from "../dataStructures/Segment";
 
 export interface AlgorithmStepsContext {
   currentStep: Step | null;

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useMemo, useContext } from "react";
 import { WebGLRenderer, Scene, OrthographicCamera, Color } from "three";
-import Point from "../business/Point";
-import Segment from "../business/Segment";
+import Point from "../dataStructures/Point";
+import Segment from "../dataStructures/Segment";
 import SceneDrawer from "../drawers/SceneDrawer";
 import MouseEvents from "../MouseEvents";
 import { drawingModeContext } from "../contexts/DrawingModeContext";

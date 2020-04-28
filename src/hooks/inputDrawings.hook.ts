@@ -3,8 +3,8 @@ import {
   InputDrawingsContext,
 } from "../contexts/InputDrawingsContext";
 import { useState, useCallback } from "react";
-import Point from "../business/Point";
-import Segment from "../business/Segment";
+import Point from "../dataStructures/Point";
+import Segment from "../dataStructures/Segment";
 
 export const useInputDrawings = (): InputDrawingsContext => {
   const [inputPoints, setInputPoints] = useState(

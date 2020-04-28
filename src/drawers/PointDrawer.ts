@@ -1,4 +1,4 @@
-import Point from "../business/Point";
+import Point from "../dataStructures/Point";
 import { Scene, Mesh, CircleGeometry, MeshBasicMaterial, Color } from "three";
 
 export default class PointDrawer {

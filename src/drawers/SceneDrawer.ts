@@ -1,8 +1,8 @@
 import PointDrawer from "./PointDrawer";
 import { Scene } from "three";
 import SegmentDrawer from "./SegmentDrawer";
-import Segment from "../business/Segment";
-import Point from "../business/Point";
+import Segment from "../dataStructures/Segment";
+import Point from "../dataStructures/Point";
 import Step from "../algorithms/step";
 import StepDrawer from "./StepDrawer";
 import ColorsGenerator from "./ColorsGenerator";

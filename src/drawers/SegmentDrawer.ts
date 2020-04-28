@@ -1,4 +1,4 @@
-import Segment from "../business/Segment";
+import Segment from "../dataStructures/Segment";
 import {
   Scene,
   LineBasicMaterial,
