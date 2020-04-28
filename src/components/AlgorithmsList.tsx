@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { ButtonsList } from "./ButtonsList";
-import IAlgorithm from "./algorithms/IAlgorithm";
-import { algorithmStepsContext } from "./contexts/AlgorithmStepsContext";
-import { inputDrawingsContext } from "./contexts/InputDrawingsContext";
+import IAlgorithm from "../algorithms/IAlgorithm";
+import { algorithmStepsContext } from "../contexts/AlgorithmStepsContext";
+import { inputDrawingsContext } from "../contexts/InputDrawingsContext";
 interface AlgorithmsListPropTypes {
   algorithms: IAlgorithm[];
 }

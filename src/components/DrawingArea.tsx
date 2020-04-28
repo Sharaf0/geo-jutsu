@@ -1,12 +1,12 @@
 import React, { useRef, useEffect, useState, useMemo, useContext } from "react";
 import { WebGLRenderer, Scene, OrthographicCamera, Color } from "three";
-import Point from "./business/Point";
-import Segment from "./business/Segment";
-import SceneDrawer from "./drawers/SceneDrawer";
-import MouseEvents from "./MouseEvents";
-import { drawingModeContext } from "./contexts/DrawingModeContext";
-import { algorithmStepsContext } from "./contexts/AlgorithmStepsContext";
-import { inputDrawingsContext } from "./contexts/InputDrawingsContext";
+import Point from "../business/Point";
+import Segment from "../business/Segment";
+import SceneDrawer from "../drawers/SceneDrawer";
+import MouseEvents from "../MouseEvents";
+import { drawingModeContext } from "../contexts/DrawingModeContext";
+import { algorithmStepsContext } from "../contexts/AlgorithmStepsContext";
+import { inputDrawingsContext } from "../contexts/InputDrawingsContext";
 
 //FIXME: We should not need that.
 function getTempCanvas(): HTMLCanvasElement {

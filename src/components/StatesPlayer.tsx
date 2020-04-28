@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { algorithmStepsContext } from "./contexts/AlgorithmStepsContext";
+import { algorithmStepsContext } from "../contexts/AlgorithmStepsContext";
 
 export const StatesPlayer = function () {
   const { stepsCount, currentStepNumber, next, prev } = useContext(

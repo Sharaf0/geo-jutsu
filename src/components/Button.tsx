@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./styles/button.module.scss";
+import classes from "../styles/button.module.scss";
 import classNames from "classnames";
 
 export interface ButtonProps {

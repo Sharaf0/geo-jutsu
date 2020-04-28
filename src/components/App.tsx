@@ -2,15 +2,15 @@ import React from "react";
 import DrawingArea from "./DrawingArea";
 import DrawingPalette from "./DrawingPalette";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { drawingModeContext } from "./contexts/DrawingModeContext";
-import { algorithmStepsContext } from "./contexts/AlgorithmStepsContext";
-import { inputDrawingsContext } from "./contexts/InputDrawingsContext";
+import { drawingModeContext } from "../contexts/DrawingModeContext";
+import { algorithmStepsContext } from "../contexts/AlgorithmStepsContext";
+import { inputDrawingsContext } from "../contexts/InputDrawingsContext";
 import { StatesPlayer } from "./StatesPlayer";
 import AlgorithmsList from "./AlgorithmsList";
-import { useDrawingMode } from "./hooks/drawingMode.hook";
-import { useAlgorithmSteps } from "./hooks/algorithmSteps.hook";
-import AlgorithmsFactory from "./algorithms/algorithmsFactory";
-import { useInputDrawings } from "./hooks/inputDrawings.hook";
+import { useDrawingMode } from "../hooks/drawingMode.hook";
+import { useAlgorithmSteps } from "../hooks/algorithmSteps.hook";
+import AlgorithmsFactory from "../algorithms/algorithmsFactory";
+import { useInputDrawings } from "../hooks/inputDrawings.hook";
 
 //TODO: Move that to config.
 const drawingButtons = (function () {
