@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { AlgorithmStepsContext } from "../contexts/AlgorithmStepsContext";
 import Step from "../algorithms/step";
 import IAlgorithm from "../algorithms/IAlgorithm";
@@ -9,17 +9,32 @@ export const useAlgorithmSteps = (): AlgorithmStepsContext => {
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [currentStep, setCurrentStep] = useState<Step | null>(null);
   const [allSteps, setAllSteps] = useState<Step[]>([]);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
 
-  const next = function () {
+  const next = useCallback(() => {
     if (currentIndex === allSteps.length - 1) return;
     setCurrentStep(allSteps[currentIndex + 1]);
     setCurrentIndex(currentIndex + 1);
-  };
+  }, [allSteps, currentIndex]);
+
+  useEffect(() => {
+    if (!isRunning) return;
+    console.log(currentIndex);
+    setTimeout(() => {
+      next();
+    }, 100);
+    // return () => {
+    //   debugger;
+    //   clearTimeout(to);
+    // };
+  }, [isRunning, currentIndex]);
+
   const prev = function () {
     if (currentIndex === 0) return;
     setCurrentStep(allSteps[currentIndex - 1]);
     setCurrentIndex(currentIndex - 1);
   };
+
   const run = function (
     algorithm: IAlgorithm,
     inputPoints: Point[],
@@ -35,6 +50,14 @@ export const useAlgorithmSteps = (): AlgorithmStepsContext => {
     setCurrentIndex(0);
   };
 
+  const stop = function () {
+    setIsRunning(false);
+  };
+
+  const start = function () {
+    setIsRunning(true);
+  };
+
   return {
     currentStep,
     currentStepNumber: currentIndex,
@@ -42,5 +65,8 @@ export const useAlgorithmSteps = (): AlgorithmStepsContext => {
     next,
     prev,
     run,
+    stop,
+    isRunning,
+    start,
   };
 };

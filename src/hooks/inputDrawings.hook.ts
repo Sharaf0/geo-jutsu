@@ -22,9 +22,24 @@ export const useInputDrawings = (): InputDrawingsContext => {
     [inputPoints]
   );
 
+  const addPoints = useCallback(
+    (points: Point[]): void => {
+      setInputPoints([...inputPoints, ...points]);
+    },
+    [inputPoints]
+  );
+
   const addSegment = useCallback(
     (segment: Segment): void => {
       setInputSegments([...inputSegments, segment]);
+    },
+    [inputSegments]
+  );
+
+  
+  const addSegments = useCallback(
+    (segments: Segment[]): void => {
+      setInputSegments([...inputSegments, ...segments]);
     },
     [inputSegments]
   );
@@ -36,7 +51,9 @@ export const useInputDrawings = (): InputDrawingsContext => {
 
   return {
     addPoint,
+    addPoints,
     addSegment,
+    addSegments,
     inputPoints,
     inputSegments,
   };

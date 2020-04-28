@@ -2,9 +2,15 @@ import React, { useContext } from "react";
 import { algorithmStepsContext } from "../contexts/AlgorithmStepsContext";
 
 export const StatesPlayer = function () {
-  const { stepsCount, currentStepNumber, next, prev } = useContext(
+  const { stepsCount, currentStepNumber, next, prev, start, isRunning, stop } = useContext(
     algorithmStepsContext
   );
+  const startStopButton = isRunning ?
+    (<button type="button" className="btn btn-primary" onClick={stop}>
+      {"Stop"}
+    </button>) : (<button type="button" className="btn btn-primary" onClick={start}>
+      {"Start"}
+    </button>);
   if (stepsCount === 0) return <></>;
   return (
     <>
@@ -24,9 +30,7 @@ export const StatesPlayer = function () {
         >
           {"<"}
         </button>
-        <button type="button" className="btn btn-primary">
-          {"Start"}
-        </button>
+        {startStopButton}
         <button
           type="button"
           className="btn btn-primary"

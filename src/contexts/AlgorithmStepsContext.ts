@@ -15,6 +15,9 @@ export interface AlgorithmStepsContext {
     inputPoints: Point[],
     inputSegments: Segment[]
   ) => void;
+  start: () => void;
+  stop: () => void;
+  isRunning: boolean;
 }
 
 export const DEFAULT_ALGORITHM_STEPS_CONTEXT_VALUE: AlgorithmStepsContext = {
@@ -28,6 +31,9 @@ export const DEFAULT_ALGORITHM_STEPS_CONTEXT_VALUE: AlgorithmStepsContext = {
     inputPoints: Point[],
     inputSegments: Segment[]
   ) => {},
+  start: () => {},
+  stop: () => {},
+  isRunning: false
 };
 
 export const algorithmStepsContext = React.createContext<AlgorithmStepsContext>(

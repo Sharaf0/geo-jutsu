@@ -7,6 +7,7 @@ import MouseEvents from "../MouseEvents";
 import { drawingModeContext } from "../contexts/DrawingModeContext";
 import { algorithmStepsContext } from "../contexts/AlgorithmStepsContext";
 import { inputDrawingsContext } from "../contexts/InputDrawingsContext";
+import { generateRandomPoints } from "../utilities";
 
 //FIXME: We should not need that.
 function getTempCanvas(): HTMLCanvasElement {
@@ -21,7 +22,7 @@ function DrawingArea() {
   const mouseEvents = useMemo(() => new MouseEvents(), []);
   const { drawingMode } = useContext(drawingModeContext);
   const { currentStep } = useContext(algorithmStepsContext);
-  const { addPoint, addSegment, inputPoints, inputSegments } = useContext(
+  const { addPoint, addPoints, addSegment, inputPoints, inputSegments } = useContext(
     inputDrawingsContext
   );
   const [beingDrawenPoint, setBeingDrawenPoint] = useState<Point | null>(null);
@@ -98,6 +99,12 @@ function DrawingArea() {
     setBeingDrawenPoint(null);
     setBeingDrawenSegment(null);
   };
+
+  const generateRandom = (n: number) => {
+    const points = generateRandomPoints(n, myCanvas.current.height, myCanvas.current.width);
+    addPoints(points);
+  }
+
   return (
     <>
       <canvas
@@ -109,6 +116,13 @@ function DrawingArea() {
         height="500"
         style={{ border: "1px solid black" }}
       ></canvas>
+      {/* <button>Clear</button> */}
+      <div>
+        Generate Random Points:
+        <button onClick={() => generateRandom(10)} >10</button>
+        <button onClick={() => generateRandom(100)} >100</button>
+        <button onClick={() => generateRandom(1000)} >1000</button>
+      </div>
     </>
   );
 }
