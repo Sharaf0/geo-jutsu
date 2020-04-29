@@ -36,7 +36,6 @@ export const useInputDrawings = (): InputDrawingsContext => {
     [inputSegments]
   );
 
-  
   const addSegments = useCallback(
     (segments: Segment[]): void => {
       setInputSegments([...inputSegments, ...segments]);

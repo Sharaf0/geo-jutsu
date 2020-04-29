@@ -6,9 +6,9 @@ export interface InputDrawingsContext {
   inputPoints: Point[];
   inputSegments: Segment[];
   addPoint: (point: Point) => void;
-  addPoints: (points: Point[]) => void,
+  addPoints: (points: Point[]) => void;
   addSegment: (segment: Segment) => void;
-  addSegments: (segments: Segment[]) => void,
+  addSegments: (segments: Segment[]) => void;
 }
 
 export const DEFAULT_INPUT_DRAWINGS_CONTEXT_VALUE: InputDrawingsContext = {

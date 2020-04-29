@@ -19,20 +19,29 @@ export const useAlgorithmSteps = (): AlgorithmStepsContext => {
 
   useEffect(() => {
     if (!isRunning) return;
-    console.log(currentIndex);
     setTimeout(() => {
       next();
     }, 100);
     // return () => {
-    //   debugger;
     //   clearTimeout(to);
     // };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning, currentIndex]);
 
   const prev = function () {
     if (currentIndex === 0) return;
     setCurrentStep(allSteps[currentIndex - 1]);
     setCurrentIndex(currentIndex - 1);
+  };
+
+  const cleanSteps = function (steps: Step[]): void {
+    for (let index = 1; index < steps.length; index++) {
+      const step = steps[index];
+      if (step.equals(steps[index - 1])) {
+        steps.splice(index, 1);
+        index --;
+      }
+    }
   };
 
   const run = function (
@@ -45,6 +54,7 @@ export const useAlgorithmSteps = (): AlgorithmStepsContext => {
     firstStep.segmentsGroups = [inputSegments];
     const algorithmSteps = algorithm.Run(inputPoints, inputSegments);
     const steps = [firstStep, ...algorithmSteps];
+    cleanSteps(steps);
     setAllSteps(steps);
     setCurrentStep(steps[0]);
     setCurrentIndex(0);

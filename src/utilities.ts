@@ -17,3 +17,13 @@ export const generateRandomPoints = (
 
   return points;
 };
+
+export const E = 1e-5;
+
+export const doubleEqual = (a: number, b: number): boolean => {
+  return Math.abs(a - b) < E;
+};
+
+export const getUniqueElements = function <T>(lst: T[]): T[] {
+  return Array.from(new Set(lst));
+};

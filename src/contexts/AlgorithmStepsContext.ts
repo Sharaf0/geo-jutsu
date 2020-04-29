@@ -33,7 +33,7 @@ export const DEFAULT_ALGORITHM_STEPS_CONTEXT_VALUE: AlgorithmStepsContext = {
   ) => {},
   start: () => {},
   stop: () => {},
-  isRunning: false
+  isRunning: false,
 };
 
 export const algorithmStepsContext = React.createContext<AlgorithmStepsContext>(

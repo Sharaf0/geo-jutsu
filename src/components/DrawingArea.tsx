@@ -22,9 +22,13 @@ function DrawingArea() {
   const mouseEvents = useMemo(() => new MouseEvents(), []);
   const { drawingMode } = useContext(drawingModeContext);
   const { currentStep } = useContext(algorithmStepsContext);
-  const { addPoint, addPoints, addSegment, inputPoints, inputSegments } = useContext(
-    inputDrawingsContext
-  );
+  const {
+    addPoint,
+    addPoints,
+    addSegment,
+    inputPoints,
+    inputSegments,
+  } = useContext(inputDrawingsContext);
   const [beingDrawenPoint, setBeingDrawenPoint] = useState<Point | null>(null);
   const [beingDrawenSegment, setBeingDrawenSegment] = useState<Segment | null>(
     null
@@ -101,9 +105,13 @@ function DrawingArea() {
   };
 
   const generateRandom = (n: number) => {
-    const points = generateRandomPoints(n, myCanvas.current.height, myCanvas.current.width);
+    const points = generateRandomPoints(
+      n,
+      myCanvas.current.height,
+      myCanvas.current.width
+    );
     addPoints(points);
-  }
+  };
 
   return (
     <>
@@ -119,9 +127,9 @@ function DrawingArea() {
       {/* <button>Clear</button> */}
       <div>
         Generate Random Points:
-        <button onClick={() => generateRandom(10)} >10</button>
-        <button onClick={() => generateRandom(100)} >100</button>
-        <button onClick={() => generateRandom(1000)} >1000</button>
+        <button onClick={() => generateRandom(10)}>10</button>
+        <button onClick={() => generateRandom(100)}>100</button>
+        <button onClick={() => generateRandom(1000)}>1000</button>
       </div>
     </>
   );

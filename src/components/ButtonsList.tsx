@@ -15,7 +15,7 @@ const ButtonsList = function (props: Props) {
   const onClick = useCallback(
     function (value: string): void {
       //TODO: Change the current drawingContext
-      const button = buttons.find((b) => b.value === value);
+      const button = buttons.find((b: ButtonProps) => b.value === value);
       if (!button) throw Error(`value ${value} must be found!`);
 
       if (button.isClicked)
@@ -23,7 +23,7 @@ const ButtonsList = function (props: Props) {
           `this function should not be called if the button is already clicked!`
         );
 
-      const newButtons = buttons.map((button) =>
+      const newButtons = buttons.map((button: ButtonProps) =>
         button.value === value
           ? { ...button, isClicked: true }
           : { ...button, isClicked: false }
@@ -35,7 +35,7 @@ const ButtonsList = function (props: Props) {
 
   return (
     <div>
-      {buttons.map((button) => {
+      {buttons.map((button: ButtonProps) => {
         const newButton = {
           ...button,
           onClick: (value: string) => {

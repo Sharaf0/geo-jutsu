@@ -32,6 +32,9 @@
     "deploy": "gh-pages -d build",
     "pretty": "prettier --write \"**/*.tsx\" && prettier --write \"**/*.ts\""
   },
+  "husky": {
+    "pre-commit": "yarn pretty"
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -46,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "husky": "^4.2.5"
   }
 }
