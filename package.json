@@ -33,7 +33,9 @@
     "pretty": "prettier --write \"**/*.tsx\" && prettier --write \"**/*.ts\""
   },
   "husky": {
-    "pre-commit": "yarn pretty"
+    "hooks": {
+      "pre-commit": "yarn pretty"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"

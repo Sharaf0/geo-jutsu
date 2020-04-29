@@ -39,7 +39,7 @@ export const useAlgorithmSteps = (): AlgorithmStepsContext => {
       const step = steps[index];
       if (step.equals(steps[index - 1])) {
         steps.splice(index, 1);
-        index --;
+        index--;
       }
     }
   };

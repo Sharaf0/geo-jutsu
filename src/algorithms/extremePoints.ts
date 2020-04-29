@@ -72,10 +72,8 @@ export default class extremePointsAlgorithm implements IAlgorithm {
                   this.withoutIndices(uniquePoints, deletedIndices),
                   [p],
                 ];
-      deletedPoints.push(uniquePoints[z]);
-                            deletedIndices.push(z);
-
-
+                    deletedPoints.push(uniquePoints[z]);
+            deletedIndices.push(z);
 
                 const afterDeleteStep = new Step();
                 afterDeleteStep.segmentsGroups = [[tri.ab, tri.bc, tri.ca]];

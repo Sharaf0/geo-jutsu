@@ -28,5 +28,4 @@ export default class Triangle {
   hasPointOn(p: Point): boolean {
     return this.ab.collinear(p) || this.bc.collinear(p) || this.ca.collinear(p);
   }
-
 }
